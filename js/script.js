@@ -7,6 +7,11 @@ class BoxShadowGenerator {
     blur,
     blurRef,
     spread,
+    color,
+    colorRef,
+    opacity,
+    opacityRef,
+    inset,
     spreadRef,
     previewBox,
     rule,
@@ -21,6 +26,11 @@ class BoxShadowGenerator {
     this.blurRef = blurRef;
     this.spread = spread;
     this.spreadRef = spreadRef;
+    this.color = color;
+    this.colorRef = colorRef;
+    this.opacity = opacity;
+    this.opacityRef = opacityRef;
+    this.inset = inset;
     this.previewBox = previewBox;
     this.rule = rule;
     this.webkitRule = webkitRule;
@@ -79,6 +89,14 @@ const blur = document.querySelector("#blur");
 const blurRef = document.querySelector("#blur-value");
 const spread = document.querySelector("#spread");
 const spreadRef = document.querySelector("#spread-value");
+// Novos recursos
+const color = document.querySelector("#color");
+const colorRef = document.querySelector("#color-value");
+
+const opacity = document.querySelector("#opacity");
+const opacityRef = document.querySelector("#opacity-value");
+
+const inset = document.querySelector("#inset");
 
 //Box
 const previewBox = document.querySelector("#box");
@@ -97,6 +115,11 @@ const boxShadow = new BoxShadowGenerator(
   blurRef,
   spread,
   spreadRef,
+  color,
+  colorRef,
+  opacity,
+  opacityRef,
+  inset,
   previewBox,
   rule,
   webkitRule,
