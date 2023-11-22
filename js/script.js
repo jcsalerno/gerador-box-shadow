@@ -7,12 +7,12 @@ class BoxShadowGenerator {
     blur,
     blurRef,
     spread,
+    spreadRef,
     color,
     colorRef,
     opacity,
     opacityRef,
     inset,
-    spreadRef,
     previewBox,
     rule,
     webkitRule,
@@ -38,6 +38,26 @@ class BoxShadowGenerator {
   }
 
   initialize() {
+    // Ajustar para garantir que os valores iniciais estejam corretos em ambos os campos
+    this.horizontalRef.value = this.horizontal.value;
+    this.verticalRef.value = this.vertical.value;
+    this.blurRef.value = this.blur.value;
+    this.spreadRef.value = this.spread.value;
+    this.colorRef.value = this.color.value;
+    this.opacityRef.value = this.opacity.value;
+    this.insetRef = this.inset.checked;
+
+    // Adicione a linha a seguir para configurar o valor inicial para o campo de espalhamento (spread)
+    this.spreadRef.value = this.spread.value;
+
+    this.applyRule(); // Chame applyRule novamente após a definição de insetRef
+    this.showRule();
+  }
+
+  applyRule() {
+    console.log("Applying Rule");
+
+    // Atualizar os valores dos elementos de referência diretamente
     this.horizontalRef.value = this.horizontal.value;
     this.verticalRef.value = this.vertical.value;
     this.blurRef.value = this.blur.value;
@@ -45,20 +65,19 @@ class BoxShadowGenerator {
     this.colorRef.value = this.color.value;
     this.opacityRef.value = this.opacity.value;
 
-    this.applyRule();
-    this.showRule();
-  }
-
-  applyRule() {
     const rgbValue = this.hexToRgb(this.colorRef.value);
+    console.log("RGB Value:", rgbValue);
 
-    const shadowRule = `${this.horizontalRef.value}px
-    ${this.verticalRef.value}px 
-    ${this.blurRef.value}px
-    ${this.spreadRef.value}px rgb(${rgbValue}, ${this.opacityRef.value})
-    `;
+    const shadowRule = `${this.insetRef ? "inset " : ""}${
+      this.horizontalRef.value
+    }px ${this.verticalRef.value}px ${this.blurRef.value}px ${
+      this.spreadRef.value
+    }px rgba(${rgbValue}, ${this.opacityRef.value})`;
+
+    console.log("Shadow Rule:", shadowRule);
     this.previewBox.style.boxShadow = shadowRule;
     this.currentRule = shadowRule;
+    this.showRule();
   }
 
   showRule() {
@@ -70,27 +89,28 @@ class BoxShadowGenerator {
   updateValue(type, value) {
     switch (type) {
       case "horizontal":
-        this.horizontalRef.value = value;
+        this.horizontal.value = value;
         break;
       case "vertical":
-        this.verticalRef.value = value;
+        this.vertical.value = value;
         break;
       case "blur":
-        this.blurRef.value = value;
+        this.blur.value = value;
         break;
       case "spread":
-        this.spreadRef.value = value;
+        this.spread.value = value;
         break;
       case "color":
-        this.colorRef.value = value;
+        this.color.value = value;
         break;
       case "opacity":
-        this.opacityRef.value = value;
+        this.opacity.value = value;
         break;
       case "inset":
         this.insetRef = value;
         break;
     }
+
     this.applyRule();
     this.showRule();
   }
@@ -101,6 +121,7 @@ class BoxShadowGenerator {
     }`;
   }
 }
+
 // Seleção de elementos
 const horizontal = document.querySelector("#horizontal");
 const horizontalRef = document.querySelector("#horizontal-value");
@@ -110,13 +131,12 @@ const blur = document.querySelector("#blur");
 const blurRef = document.querySelector("#blur-value");
 const spread = document.querySelector("#spread");
 const spreadRef = document.querySelector("#spread-value");
+
 // Novos recursos
 const color = document.querySelector("#color");
 const colorRef = document.querySelector("#color-value");
-
 const opacity = document.querySelector("#opacity");
 const opacityRef = document.querySelector("#opacity-value");
-
 const inset = document.querySelector("#inset");
 
 //Box
@@ -152,42 +172,35 @@ boxShadow.initialize();
 // Eventos
 horizontal.addEventListener("input", (e) => {
   const value = e.target.value;
-
   boxShadow.updateValue("horizontal", value);
 });
 
 vertical.addEventListener("input", (e) => {
   const value = e.target.value;
-
   boxShadow.updateValue("vertical", value);
 });
 
 spread.addEventListener("input", (e) => {
   const value = e.target.value;
-
   boxShadow.updateValue("spread", value);
 });
 
 blur.addEventListener("input", (e) => {
   const value = e.target.value;
-
   boxShadow.updateValue("blur", value);
 });
 
 color.addEventListener("input", (e) => {
   const value = e.target.value;
-
   boxShadow.updateValue("color", value);
 });
 
 opacity.addEventListener("input", (e) => {
   const value = e.target.value;
-
   boxShadow.updateValue("opacity", value);
 });
 
 inset.addEventListener("input", (e) => {
   const value = e.target.checked;
-
   boxShadow.updateValue("inset", value);
 });
