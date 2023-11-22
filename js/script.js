@@ -55,8 +55,6 @@ class BoxShadowGenerator {
   }
 
   applyRule() {
-    console.log("Applying Rule");
-
     // Atualizar os valores dos elementos de referência diretamente
     this.horizontalRef.value = this.horizontal.value;
     this.verticalRef.value = this.vertical.value;
@@ -66,7 +64,6 @@ class BoxShadowGenerator {
     this.opacityRef.value = this.opacity.value;
 
     const rgbValue = this.hexToRgb(this.colorRef.value);
-    console.log("RGB Value:", rgbValue);
 
     const shadowRule = `${this.insetRef ? "inset " : ""}${
       this.horizontalRef.value
@@ -74,7 +71,6 @@ class BoxShadowGenerator {
       this.spreadRef.value
     }px rgba(${rgbValue}, ${this.opacityRef.value})`;
 
-    console.log("Shadow Rule:", shadowRule);
     this.previewBox.style.boxShadow = shadowRule;
     this.currentRule = shadowRule;
     this.showRule();
@@ -203,4 +199,22 @@ opacity.addEventListener("input", (e) => {
 inset.addEventListener("input", (e) => {
   const value = e.target.checked;
   boxShadow.updateValue("inset", value);
+});
+
+// Copiar regra
+
+const rulesArea = document.querySelector("#rules-area");
+const copyInstructions = document.querySelector("#copy-instructions");
+
+rulesArea.addEventListener("click", () => {
+  const rules = rulesArea.innerText.replace(/^\s*\n/gm, "");
+
+  navigator.clipboard.writeText(rules).then(() => {
+    copyInstructions.innerText = "Regra Copiada com sucesso!";
+
+    setTimeout(() => {
+      copyInstructions.innerText =
+        "Clique no quadro acima para copiar as regras";
+    }, 1000);
+  });
 });
